@@ -42,7 +42,7 @@ export class UserUserCredentialController {
     @param.path.string('id') id: string,
     @param.query.object('filter') filter?: Filter<UserCredential>,
   ): Promise<UserCredential> {
-    return this.userRepository.credentials(id).get(filter);
+    return this.userRepository.credential(id).get(filter);
   }
 
   @post('/users/{id}/user-credential', {
@@ -67,7 +67,7 @@ export class UserUserCredentialController {
       },
     }) userCredential: Omit<UserCredential, 'id'>,
   ): Promise<UserCredential> {
-    return this.userRepository.credentials(id).create(userCredential);
+    return this.userRepository.credential(id).create(userCredential);
   }
 
   @patch('/users/{id}/user-credential', {
@@ -90,7 +90,7 @@ export class UserUserCredentialController {
     userCredential: Partial<UserCredential>,
     @param.query.object('where', getWhereSchemaFor(UserCredential)) where?: Where<UserCredential>,
   ): Promise<Count> {
-    return this.userRepository.credentials(id).patch(userCredential, where);
+    return this.userRepository.credential(id).patch(userCredential, where);
   }
 
   @del('/users/{id}/user-credential', {
@@ -105,6 +105,6 @@ export class UserUserCredentialController {
     @param.path.string('id') id: string,
     @param.query.object('where', getWhereSchemaFor(UserCredential)) where?: Where<UserCredential>,
   ): Promise<Count> {
-    return this.userRepository.credentials(id).delete(where);
+    return this.userRepository.credential(id).delete(where);
   }
 }

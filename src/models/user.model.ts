@@ -1,5 +1,6 @@
-import {Entity, hasMany, model, property} from '@loopback/repository';
+import {Entity, hasMany, model, property, hasOne} from '@loopback/repository';
 import {Token} from './token.model';
+import {UserCredential} from './user-credential.model';
 
 @model({settings: {strict: false}})
 export class User extends Entity {
@@ -48,6 +49,36 @@ export class User extends Entity {
   status: string;
 
   @property({
+    type: 'string',
+    required: true,
+  })
+  address_line_1: string;
+
+  @property({
+    type: 'string',
+    required: false,
+  })
+  address_line_2: string;
+
+  @property({
+    type: 'string',
+    required: false,
+  })
+  city: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  country: string;
+
+  @property({
+    type: 'string',
+    required: false,
+  })
+  zip_code: string;
+
+  @property({
     type: 'string'
   })
   last_login?: string;
@@ -79,6 +110,9 @@ export class User extends Entity {
 
   @hasMany(() => Token, {keyTo: 'user_id'})
   tokens: Token[];
+
+  @hasOne(() => UserCredential, {keyTo: 'user_id'})
+  credential: UserCredential;
   // Define well-known properties here
 
   // Indexer property to allow additional data

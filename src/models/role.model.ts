@@ -1,7 +1,13 @@
 import {Entity, model, property} from '@loopback/repository';
 
 @model({settings: {strict: false}})
-export class UserCredential extends Entity {
+export class Role extends Entity {
+  @property({
+    type: 'string',
+    required: true,
+  })
+  name: string;
+
   @property({
     type: 'string',
     id: true,
@@ -11,14 +17,21 @@ export class UserCredential extends Entity {
 
   @property({
     type: 'string',
-    required: true,
+    jsonSchema: {
+      enum: ['INACTIVE', 'ACTIVE'],
+    },
+    default: 'ACTIVE'
   })
-  password: string;
+  status: string;
 
   @property({
     type: 'string',
+    jsonSchema: {
+      enum: ['SUPER_CSM', 'CSM', 'SYSTEM_ADMIN', 'ADMIN', 'EMPLOYEE'],
+    },
+    default: 'EMPLOYEE'
   })
-  user_id: string;
+  type: string;
 
   // Define well-known properties here
 
@@ -26,13 +39,13 @@ export class UserCredential extends Entity {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [prop: string]: any;
 
-  constructor(data?: Partial<UserCredential>) {
+  constructor(data?: Partial<Role>) {
     super(data);
   }
 }
 
-export interface UserCredentialRelations {
+export interface RoleRelations {
   // describe navigational properties here
 }
 
-export type UserCredentialWithRelations = UserCredential & UserCredentialRelations;
+export type RoleWithRelations = Role & RoleRelations;

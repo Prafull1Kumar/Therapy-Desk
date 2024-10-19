@@ -15,10 +15,14 @@ export class UserRepository extends DefaultCrudRepository<
 
   public readonly credentials: HasOneRepositoryFactory<UserCredential, typeof User.prototype.id>;
 
+  public readonly credential: HasOneRepositoryFactory<UserCredential, typeof User.prototype.id>;
+
   constructor(
     @inject('datasources.Postgresql') dataSource: PostgresqlDataSource, @repository.getter('TokenRepository') protected tokenRepositoryGetter: Getter<TokenRepository>, @repository.getter('UserCredentialRepository') protected userCredentialRepositoryGetter: Getter<UserCredentialRepository>,
   ) {
     super(User, dataSource);
+    this.credential = this.createHasOneRepositoryFactoryFor('credential', userCredentialRepositoryGetter);
+    this.registerInclusionResolver('credential', this.credential.inclusionResolver);
     this.credentials = this.createHasOneRepositoryFactoryFor('credentials', userCredentialRepositoryGetter);
     this.registerInclusionResolver('credentials', this.credentials.inclusionResolver);
     this.tokens = this.createHasManyRepositoryFactoryFor('tokens', tokenRepositoryGetter,);
