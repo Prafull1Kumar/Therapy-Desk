@@ -1,6 +1,9 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model({settings: {strict: false}})
+@model({
+  name: 'organization',
+  strict: false
+})
 export class Organization extends Entity {
   @property({
     type: 'string',
@@ -18,7 +21,7 @@ export class Organization extends Entity {
   @property({
     type: 'string',
     jsonSchema: {
-      enum: ['PROFESSIONAL', 'EDUCATIONAL', 'NON-PROFIT', 'SPORTS', 'POLITICAL', 'HEALTHCARE', 'GOVERNMENT'],
+      enum: ['PROFESSIONAL', 'EDUCATIONAL', 'SPORTS'],
     },
     default: 'EDUCATIONAL'
   })

@@ -1,6 +1,10 @@
-import {Entity, model, property} from '@loopback/repository';
+import {belongsTo, Entity, model, property} from '@loopback/repository';
+import {Organization} from './organization.model';
 
-@model({settings: {strict: false}})
+@model({
+  name: 'role',
+  strict: false
+})
 export class Role extends Entity {
   @property({
     type: 'string',
@@ -27,12 +31,19 @@ export class Role extends Entity {
   @property({
     type: 'string',
     jsonSchema: {
-      enum: ['SUPER_CSM', 'CSM', 'SYSTEM_ADMIN', 'ADMIN', 'EMPLOYEE'],
+      enum: ['STUDENT', 'ATHLETE', 'EMPLOYEE'],
     },
     default: 'EMPLOYEE'
   })
   type: string;
 
+  @belongsTo(() => Organization, {name: 'organization'})
+  organization_id: string;
+
+  @property({
+    type: 'string',
+  })
+  user_id?: string;
   // Define well-known properties here
 
   // Indexer property to allow additional data

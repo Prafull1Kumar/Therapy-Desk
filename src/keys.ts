@@ -1,8 +1,8 @@
 import {UserService} from '@loopback/authentication';
-import {BindingKey} from '@loopback/context';
-import {PasswordHasher} from './services';
-import {User} from './models';
 import {Credentials} from '@loopback/authentication-jwt';
+import {BindingKey} from '@loopback/context';
+import {User} from './models';
+import {PasswordHasher} from './services';
 
 
 export namespace PasswordHasherBindings {
@@ -19,6 +19,6 @@ export namespace UserServiceBindings {
 }
 
 export const AWS_LAMBDA_FUNCTIONS = {
-  welcome: 'WelcomeEmailFunction',
+  welcome: 'welcomeEmail',
   resetPassword: 'ResetPasswordEmailFunction',
 };

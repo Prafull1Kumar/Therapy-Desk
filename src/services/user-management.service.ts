@@ -1,11 +1,11 @@
 import { /* inject, */ BindingScope, inject, injectable, service} from '@loopback/core';
-import {repository} from '@loopback/repository';
+import {juggler, repository} from '@loopback/repository';
 import {AWS_LAMBDA_FUNCTIONS, PasswordHasherBindings} from '../keys';
 import {UserCredential} from '../models';
 import {UserCredentialRepository, UserRepository} from '../repositories';
 import {AwsLambdaService} from './aws-lambda.service';
 import {PasswordHasher} from './hash.password.bcryptjs';
-
+import Transaction = juggler.Transaction;
 @injectable({scope: BindingScope.TRANSIENT})
 export class UserManagementService {
   constructor(
@@ -18,7 +18,7 @@ export class UserManagementService {
     @service(AwsLambdaService)
     public awsLambdaService: AwsLambdaService,) { }
 
-  async createUserCredentials(user_credential: UserCredential, transaction?: any, dontSendEmail: boolean = false): Promise<UserCredential> {
+  async createUserCredentials(user_credential: UserCredential, transaction?: Transaction, dontSendEmail: boolean = false): Promise<UserCredential> {
     const password = await this.passwordHasher.hashPassword(
       user_credential.password,
     );
@@ -28,7 +28,7 @@ export class UserManagementService {
       // userCredential.temp_password = password;
       await this.userRepository.credential(user_credential.id).patch(userCredential, {transaction});
     } else {
-      await this.userRepository.credential(user_credential.id).create({password, temp_password: user_credential.password}, {transaction});
+      await this.userRepository.credential(user_credential.id).create({password: user_credential.password}, {transaction});
     }
 
     if (dontSendEmail === false) {

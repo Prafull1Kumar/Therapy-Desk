@@ -1,8 +1,12 @@
-import {Entity, hasMany, model, property, hasOne} from '@loopback/repository';
+import {Entity, hasMany, hasOne, model, property} from '@loopback/repository';
+import {Role} from './role.model';
 import {Token} from './token.model';
 import {UserCredential} from './user-credential.model';
 
-@model({settings: {strict: false}})
+@model({
+  name: 'users',
+  strict: false
+})
 export class User extends Entity {
   @property({
     type: 'string',
@@ -50,7 +54,7 @@ export class User extends Entity {
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
   })
   address_line_1: string;
 
@@ -68,7 +72,7 @@ export class User extends Entity {
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
   })
   country: string;
 
@@ -84,11 +88,6 @@ export class User extends Entity {
   last_login?: string;
 
   @property({
-    type: 'string',
-  })
-  reset_key?: string;
-
-  @property({
     type: 'number',
   })
   reset_count: number;
@@ -101,11 +100,6 @@ export class User extends Entity {
   @property({
     type: 'string',
   })
-  reset_key_timestamp: string;
-
-  @property({
-    type: 'string',
-  })
   designation: string;
 
   @hasMany(() => Token, {keyTo: 'user_id'})
@@ -113,6 +107,9 @@ export class User extends Entity {
 
   @hasOne(() => UserCredential, {keyTo: 'user_id'})
   credential: UserCredential;
+
+  @hasOne(() => Role, {keyTo: 'user_id'})
+  role: Role;
   // Define well-known properties here
 
   // Indexer property to allow additional data
