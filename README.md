@@ -67,6 +67,18 @@ npm run lint:fix
 npm test
 ```
 
+## Project Structure
+```
+📦src
+┣ 📂controllers          # Route handlers and API endpoints
+┣ 📂models              # Data models and schemas
+┣ 📂repositories        # Database interactions
+┣ 📂services           # Business logic and external services
+┣ 📂migrations         # Database migration files
+┣ 📜index.ts          # Application entry point
+┗ 📜application.ts    # Main application setup
+```
+
 ## What's next
 
 Please check out [LoopBack 4 documentation](https://loopback.io/doc/en/lb4/) to
