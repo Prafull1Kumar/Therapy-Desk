@@ -143,39 +143,63 @@ export class AuthController {
     @requestBody({})
     user: any
   ): Promise<User> {
+    // Begin a new database transaction with READ_COMMITTED isolation level
+    // This ensures consistent reads and prevents dirty reads
     const transaction = await this.userRepository.dataSource.beginTransaction(IsolationLevel.READ_COMMITTED);
-    try {
 
-      const existingUser = await this.userRepository.findOne({where: {email: user.email.toLocaleLowerCase()}});
+    try {
+      // Check if user with same email already exists (case-insensitive check)
+      const existingUser = await this.userRepository.findOne({
+        where: {
+          email: user.email.toLocaleLowerCase()
+        }
+      });
+
+      // Throw error if email already exists in system
       if (existingUser)
         throw new HttpErrors.Forbidden('Error. This email address already exists.');
 
+      // Convert email to lowercase for consistency
       const email = user.email.toLocaleLowerCase();
+
+      // Validate email format
       if (email && !this.isValidEmail(email)) {
         console.error("The email address is invalid.");
         throw new HttpErrors.BadRequest("The email address is invalid.");
       }
 
+      // Extract password before creating user
+      // This separates password from user data for security
       const password = user.password;
       delete user.password;
-      // const password = generatePassword.generate({
-      //   length: 8,
-      //   numbers: true,
-      // });
 
+      // Set initial user status to 'PROCESSING'
+      // User needs to verify email before becoming active
       user.status = 'PROCESSING'
 
+      // Create new user record in database
       let newUser = await this.userRepository.create(user, {transaction});
 
-      await this.userManagementService.createUserCredentials(Object.assign(newUser, {
-        password: password,
-        user_id: newUser.id
-      }), transaction);
+      // Create user credentials in separate table
+      // This keeps sensitive password data separate from user profile
+      await this.userManagementService.createUserCredentials(
+        Object.assign(newUser, {
+          password: password,
+          user_id: newUser.id
+        }),
+        transaction
+      );
+
+      // Commit transaction if all operations succeed
       await transaction.commit();
-      return newUser
+
+      // Return newly created user (without password)
+      return newUser;
+
     } catch (error) {
+      // Rollback all changes if any operation fails
       await transaction.rollback();
-      throw error;
+      throw error;  // Re-throw error for higher-level handling
     }
   }
 
