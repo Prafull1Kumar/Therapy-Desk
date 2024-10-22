@@ -18,7 +18,7 @@ import {User} from '../models';
 import {OrganizationRepository, RoleRepository, UserRepository} from '../repositories';
 import {AwsLambdaService, UserManagementService} from '../services';
 
-export class UserController {
+export class AuthController {
   constructor(
     @repository(UserRepository)
     public userRepository: UserRepository,
