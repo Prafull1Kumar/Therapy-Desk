@@ -16,7 +16,7 @@ import {MySequence} from './sequence';
 import {BcryptHasher} from './services';
 export {ApplicationConfig};
 
-export class UserApiApplication extends BootMixin(
+export class TherapyDeskApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
 ) {
   constructor(options: ApplicationConfig = {}) {

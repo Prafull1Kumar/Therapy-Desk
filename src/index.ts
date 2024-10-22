@@ -1,9 +1,9 @@
-import {ApplicationConfig, UserApiApplication} from './application';
+import {ApplicationConfig, TherapyDeskApplication} from './application';
 
 export * from './application';
 
 export async function main(options: ApplicationConfig = {}) {
-  const app = new UserApiApplication(options);
+  const app = new TherapyDeskApplication(options);
   await app.boot();
   await app.start();
 

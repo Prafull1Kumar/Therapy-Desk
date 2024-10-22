@@ -1,5 +1,5 @@
 {
-  "name": "user-api",
+  "name": "therapy-desk",
   "version": "0.0.1",
   "description": "APIs related to User operation in loopback",
   "keywords": [
@@ -25,8 +25,8 @@
     "test": "lb-mocha --allow-console-logs \"dist/__tests__\"",
     "posttest": "npm run lint",
     "test:dev": "lb-mocha --allow-console-logs dist/__tests__/**/*.js && npm run posttest",
-    "docker:build": "docker build -t user-api .",
-    "docker:run": "docker run -p 3000:3000 -d user-api",
+    "docker:build": "docker build -t therapy-desk .",
+    "docker:run": "docker run -p 3000:3000 -d therapy-desk",
     "premigrate": "npm run build",
     "migrate": "node ./dist/migrate",
     "preopenapi-spec": "npm run build",

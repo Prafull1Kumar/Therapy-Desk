@@ -1,10 +1,10 @@
-import {UserApiApplication} from './application';
+import {TherapyDeskApplication} from './application';
 
 export async function migrate(args: string[]) {
   const existingSchema = args.includes('--rebuild') ? 'drop' : 'alter';
   console.log('Migrating schemas (%s existing schema)', existingSchema);
 
-  const app = new UserApiApplication();
+  const app = new TherapyDeskApplication();
   await app.boot();
   await app.migrateSchema({existingSchema});
 
