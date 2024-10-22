@@ -1,4 +1,5 @@
-import {authenticate} from '@loopback/authentication';
+import {authenticate, TokenService} from '@loopback/authentication';
+import {Credentials, TokenServiceBindings} from '@loopback/authentication-jwt';
 import {inject, service} from '@loopback/core';
 import {
   IsolationLevel,
@@ -21,6 +22,8 @@ export class UserController {
   constructor(
     @repository(UserRepository)
     public userRepository: UserRepository,
+    @inject(TokenServiceBindings.TOKEN_SERVICE)
+    public jwtService: TokenService,
     @service(AwsLambdaService)
     public awsLambdaService: AwsLambdaService,
     @repository(RoleRepository)
@@ -94,23 +97,53 @@ export class UserController {
     return {success: true, message: "Logout Success"};
   }
 
-  @post('/user/login')
+  @post('/users/login', {
+    responses: {
+      '200': {
+        description: 'Token',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                token: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  })
+  async login(
+    @requestBody({}) credentials: Credentials
+  ): Promise<{token: string, redirect?: string, api?: string, ui?: string} | void> {
+    credentials.email = credentials.email.toLocaleLowerCase()
+
+    const user = await this.userManagementService.verifyCredentials(credentials);
+
+    //user found so we proceed
+
+    // convert a User object into a UserProfile object (reduced set of properties)
+    const userProfile = this.userManagementService.convertToUserProfile(user);
+
+    // create a JSON Web Token based on the user profile
+    const token = await this.jwtService.generateToken(userProfile);
+    await this.userRepository.tokens(userProfile.id).create({token});
+    return {
+      token,
+    };
+  }
+
+  @post('/user/create')
   @response(200, {
     description: 'User model instance',
     content: {'application/json': {schema: getModelSchemaRef(User)}},
   })
   async create(
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(User, {
-            title: 'NewUser',
-            exclude: ['id'],
-          }),
-        },
-      },
-    })
-    user: Omit<User, 'id'>,
+    @requestBody({})
+    user: any
   ): Promise<User> {
     const transaction = await this.userRepository.dataSource.beginTransaction(IsolationLevel.READ_COMMITTED);
     try {
