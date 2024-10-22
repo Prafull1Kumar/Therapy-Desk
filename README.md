@@ -68,26 +68,32 @@ npm test
 ```
 
 ## Project Structure
-
-src/
-├── controllers/        # Route handlers and API endpoints
-│   ├── index.ts
-│   ├── user.controller.ts
-│   └── organization.controller.ts
-├── models/            # Data models and schemas
-│   ├── user.model.ts
-│   ├── role.model.ts
-│   └── organization.model.ts
-├── repositories/      # Database interactions
-│   ├── user.repository.ts
-│   └── organization.repository.ts
-├── services/         # Business logic and external services
-│   ├── user-management.service.ts
-│   └── aws-lambda.service.ts
-├── interfaces/       # TypeScript interfaces and types
-├── migrations/       # Database migration files
-└── application.ts    # Main application setup
-
+```
+📦src
+┣ 📂controllers          # Route handlers and API endpoints
+┃ ┣ 📜index.ts
+┃ ┣ 📜ping.controller.ts
+┃ ┣ 📜user.controller.ts
+┃ ┗ 📜organization.controller.ts
+┣ 📂models              # Data models and schemas
+┃ ┣ 📜index.ts
+┃ ┣ 📜user.model.ts
+┃ ┣ 📜role.model.ts
+┃ ┗ 📜organization.model.ts
+┣ 📂repositories        # Database interactions
+┃ ┣ 📜index.ts
+┃ ┣ 📜user.repository.ts
+┃ ┗ 📜organization.repository.ts
+┣ 📂services           # Business logic and external services
+┃ ┣ 📜user-management.service.ts
+┃ ┗ 📜aws-lambda.service.ts
+┣ 📂interfaces         # TypeScript interfaces and types
+┃ ┗ 📜index.ts
+┣ 📂migrations         # Database migration files
+┃ ┗ 📜schema.sql
+┣ 📜index.ts          # Application entry point
+┗ 📜application.ts    # Main application setup
+```
 
 ## What's next
 
