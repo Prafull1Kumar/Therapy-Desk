@@ -61,6 +61,8 @@
     "aws-sdk": "^2.1691.0",
     "bcryptjs": "^2.4.3",
     "db-migrate": "^0.11.14",
+    "dotenv": "^16.4.5",
+    "dotenv-extended": "^2.9.0",
     "generate-password": "^1.7.1",
     "loopback-connector-postgresql": "^5.5.2",
     "tslib": "^2.0.0"

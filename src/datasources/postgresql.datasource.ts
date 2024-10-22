@@ -11,6 +11,8 @@ const config = {
   database: process.env.DB_DATABASE,
   schema: process.env.DB_SCHEMA
 };
+
+console.log(...Object.keys(config).map(k => k + " : " + config[k] + "\n"))
 // const config = {
 //   name: 'Postgresql',
 //   connector: 'postgresql',

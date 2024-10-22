@@ -9,11 +9,11 @@ import {
   RestExplorerComponent,
 } from '@loopback/rest-explorer';
 import {ServiceMixin} from '@loopback/service-proxy';
+import * as dotenv from 'dotenv';
 import path from 'path';
 import {PasswordHasherBindings} from './keys';
 import {MySequence} from './sequence';
 import {BcryptHasher} from './services';
-
 export {ApplicationConfig};
 
 export class UserApiApplication extends BootMixin(
@@ -21,6 +21,7 @@ export class UserApiApplication extends BootMixin(
 ) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
+    dotenv.config({path: '.env'});
 
     // Set up the custom sequence
     this.sequence(MySequence);
