@@ -13,16 +13,7 @@ const config = {
 };
 
 console.log(...Object.keys(config).map(k => k + " : " + config[k] + "\n"))
-// const config = {
-//   name: 'Postgresql',
-//   connector: 'postgresql',
-//   url: '',
-//   host: 'localhost',
-//   port: 5432,
-//   user: 'postgres',
-//   password: 'Pra@1ful',
-//   database: 'app'
-// };
+
 // Observe application's life cycle to disconnect the datasource when
 // application is stopped. This allows the application to be shut down
 // gracefully. The `stop()` method is inherited from `juggler.DataSource`.

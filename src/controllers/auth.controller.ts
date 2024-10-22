@@ -50,11 +50,10 @@ export class UserController {
       throw new HttpErrors.UnprocessableEntity("Error. Please check your email address.");
     }
 
-    //To Do
-    const password_reset = await this.userManagementService.requestPasswordReset( //WORK_HERE
+    const password_reset = await this.userManagementService.requestPasswordReset(
       resetPasswordInit.email
     );
-    // if (password_reset.SendTemplatedEmailResponse) {
+
     if (password_reset?.ResponseMetadata?.HTTPStatusCode == 200) {
       return {success: true, message: "Successfully sent reset password link"};
     }
@@ -92,7 +91,6 @@ export class UserController {
   async logout(
     @requestBody() payload: {token: string}
   ): Promise<any> {
-    // const token: string = await this.userManagementService.extractCredentials(request)
     await this.userRepository.tokens(this.user.id).delete({token: payload.token})
     return {success: true, message: "Logout Success"};
   }

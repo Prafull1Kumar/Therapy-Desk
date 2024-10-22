@@ -55,10 +55,7 @@ export class UserManagementService {
     if (!email) {
       throw new HttpErrors.Unauthorized(invalidCredentialsError);
     }
-    // let foundUser = await this.userProductRepository.findOne({
-    //   where: {email},
-    // });//product
-    // if (!foundUser) {//default
+
     const foundUser = await this.userRepository.findOne({
       where: {email},
     });
@@ -66,10 +63,7 @@ export class UserManagementService {
     if (!foundUser) {
       throw new HttpErrors.Unauthorized(invalidCredentialsError);
     }
-    // let credentialsFound = await this.userProductRepository.findCredentials(
-    //   foundUser.id,
-    // );//product
-    // if (!credentialsFound) {//default
+
     const credentialsFound = await this.userCredentialRepository.findOne({
       where: {
         user_id: foundUser.id
@@ -137,7 +131,6 @@ export class UserManagementService {
     // Lambda invokation for emails
     const send_email = await this.awsLambdaService.invokeFunction(AWS_LAMBDA_FUNCTIONS.resetPassword, {user_id: user.id});
     return send_email;
-    // return this.emailService.sendResetPasswordMail(user); // WORK_HERE send email with reset_key from user object.
   }
 
   async updateResetRequestLimit(user: User): Promise<User> {
@@ -157,12 +150,7 @@ export class UserManagementService {
       user.reset_timestamp = new Date().toISOString();
       user.reset_count = 1;
     }
-    // For generating unique reset key there are other options besides the proposed solution below.
-    // Feel free to use whatever option works best for your needs
-    // let date = new Date().toISOString()
-    // let year = new Date(date).getFullYear()
-    // let month = new Date(date).getMonth()
-    // let day = new Date(date).getDate()
+
     user.reset_key = uuidv4();
     user.reset_key_timestamp = new Date().toISOString();
 
