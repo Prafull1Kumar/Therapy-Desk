@@ -8,6 +8,7 @@
         "<node_internals>/**"
       ],
       "program": "${workspaceFolder}/dist/index.js",
+      "envFile": "${workspaceFolder}/.env"
     },
     {
       "type": "node",

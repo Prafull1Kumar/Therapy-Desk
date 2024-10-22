@@ -63,3 +63,6 @@ ecosystem.config.js
 
 # Cache used by TypeScript's incremental build
 *.tsbuildinfo
+
+.vscode/
+.DS_Store
