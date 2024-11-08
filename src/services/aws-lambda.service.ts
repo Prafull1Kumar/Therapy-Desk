@@ -9,7 +9,7 @@ export class AwsLambdaService {
   constructor() {
     let awsConfig = {region: 'us-east-2'};
     if (process.env.SAM_LOCAL === 'true') {//for testing, remove if not running sam local
-      awsConfig['endpoint'] = 'http://localhost:3001'; // or whereever sam local is running
+      awsConfig['endpoint'] = 'http://127.0.0.1:3001'; // or whereever sam local is running
     }
     this.lambda = new Lambda(awsConfig);
   }

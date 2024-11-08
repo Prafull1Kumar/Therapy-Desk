@@ -19,6 +19,6 @@ export namespace UserServiceBindings {
 }
 
 export const AWS_LAMBDA_FUNCTIONS = {
-  welcome: 'welcomeEmail',
+  welcome: 'SendEmailFunction',
   resetPassword: 'ResetPasswordEmailFunction',
 };

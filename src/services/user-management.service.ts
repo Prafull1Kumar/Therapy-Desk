@@ -9,6 +9,7 @@ import {User, UserCredential} from '../models';
 import {UserCredentialRepository, UserRepository} from '../repositories';
 import {subtractDates} from '../utils/subtract-dates';
 import {AwsLambdaService} from './aws-lambda.service';
+import {EmailService} from './email-service.service';
 import {PasswordHasher} from './hash.password.bcryptjs';
 import Transaction = juggler.Transaction;
 @injectable({scope: BindingScope.TRANSIENT})
@@ -20,6 +21,8 @@ export class UserManagementService {
     public userCredentialRepository: UserCredentialRepository,
     @inject(PasswordHasherBindings.PASSWORD_HASHER)
     public passwordHasher: PasswordHasher,
+    @inject('services.EmailService')
+    protected emailService: EmailService,
     @service(AwsLambdaService)
     public awsLambdaService: AwsLambdaService,) { }
 
